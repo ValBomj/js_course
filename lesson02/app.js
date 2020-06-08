@@ -1,11 +1,9 @@
-let money, income, addExpenses, deposit, mission, period;
-
-money = 15000;
-income = 'Freelance';
-addExpenses = 'Internet, taxi, communal payments';
-deposit = true;
-mission = 100000;
-period = 12;
+const money = 15000;
+const income = 'Freelance';
+const addExpenses = 'Internet, taxi, communal payments';
+const deposit = true;
+const mission = 100000;
+const period = 12;
 
 console.log(typeof money);
 console.log(typeof income);
