@@ -1,4 +1,5 @@
-const income = 'Freelance';
+
+'use strict';
 
 // Спрашиваю у пользователя "Ваш месячный доход?"
 const money = prompt('Ваш месячный доход?');
