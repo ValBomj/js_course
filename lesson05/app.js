@@ -21,7 +21,7 @@ const amount2 = +prompt('Во сколько это обойдется?', 2500);
 const mission = 1000000;
 const period = 6;
 
-let start = function () {
+const start = function () {
   do {
     // Спрашиваю у пользователя "Ваш месячный доход?"
     money = prompt("Ваш месячный доход?");
