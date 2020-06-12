@@ -31,12 +31,13 @@ let appData = {
     let addExpenses = prompt(
       "Перечислите возможные расходы за рассчитываемый период через запятую"
     );
-    // Привожу возможные расходы 
+    // Привожу возможные расходы к нижнему регистру и вношу в масив
     appData.addExpenses = addExpenses.toLowerCase().split(", ");
 
     // Спрашиваю у пользователя "Есть ли у вас депозит в банке?"
     appData.deposit = confirm("Есть ли у вас депозит в банке?");
 
+    // Спашиваю у пользователя о его обязатеных статьях расходов и во сколько это обойдётся
     for (let i = 0; i < 2; i++) {
       let question = prompt("Введите обязательную статью расходов?");
       appData.expenses[question] = prompt("Во сколько это обойдется?");
@@ -48,13 +49,11 @@ let appData = {
     for (let key in appData.expenses) {
       appData.expensesMonth += +appData.expenses[key];
     }
-
     return appData.expensesMonth;
   },
 
   // Вычисляем бюджет на месяц и на день
   getBudget: function () {
-    // return money - expensesAmount;
     appData.budgetMonth = money - appData.expensesMonth;
     appData.budgetDay = appData.budgetMonth / 30;
   },
@@ -97,3 +96,7 @@ if (appData.getTargetMonth() > 0) {
 
 // Выводим уровень дохода
 console.log(appData.getStatusIncome());
+
+for (let key in appData) {
+  console.log('Наша программа включает в себя данные: Ключ: ' + key + '; Значение: ' + appData[key] + ';');
+}
