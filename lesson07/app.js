@@ -1,6 +1,6 @@
 "use strict";
 
-let isNumber = function (n) {
+const isNumber = function (n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
 
@@ -14,7 +14,7 @@ const start = function () {
 };
 start();
 
-let appData = {
+const appData = {
   income: {},
   addIncome: [],
   expenses: {},
@@ -27,10 +27,11 @@ let appData = {
   budgetMonth: 0,
   expensesMonth: 0,
   asking: function () {
-    // Спрашиваю у пользователя "Перечислите возможные расходы за рассчитываемый период через запятую"
-    let addExpenses = prompt(
+    const addExpenses = prompt(
       "Перечислите возможные расходы за рассчитываемый период через запятую"
     );
+    // Спрашиваю у пользователя "Перечислите возможные расходы за рассчитываемый период через запятую"
+    
     // Привожу возможные расходы к нижнему регистру и вношу в масив
     appData.addExpenses = addExpenses.toLowerCase().split(", ");
 
@@ -39,14 +40,16 @@ let appData = {
 
     // Спашиваю у пользователя о его обязатеных статьях расходов и во сколько это обойдётся
     for (let i = 0; i < 2; i++) {
-      let question = prompt("Введите обязательную статью расходов?");
-      appData.expenses[question] = prompt("Во сколько это обойдется?");
+      const question = prompt("Введите обязательную статью расходов?");
+      do {
+        appData.expenses[question] = prompt("Во сколько это обойдется?");
+      } while (!isNumber(appData.expenses[question]));
     }
   },
 
   // Вычисляем сумму всех обязательных доходов за месяц
   getExpensesMonth: function () {
-    for (let key in appData.expenses) {
+    for (const key in appData.expenses) {
       appData.expensesMonth += +appData.expenses[key];
     }
     return appData.expensesMonth;
@@ -55,7 +58,7 @@ let appData = {
   // Вычисляем бюджет на месяц и на день
   getBudget: function () {
     appData.budgetMonth = money - appData.expensesMonth;
-    appData.budgetDay = appData.budgetMonth / 30;
+    appData.budgetDay = Math.floor(appData.budgetMonth / 30);
   },
 
   // Вычисляем срок достижения цели (в месяцах)
@@ -97,6 +100,6 @@ if (appData.getTargetMonth() > 0) {
 // Выводим уровень дохода
 console.log(appData.getStatusIncome());
 
-for (let key in appData) {
+for (const key in appData) {
   console.log('Наша программа включает в себя данные: Ключ: ' + key + '; Значение: ' + appData[key] + ';');
 }
