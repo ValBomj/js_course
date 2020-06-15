@@ -9,7 +9,7 @@ let money;
 const start = function () {
   do {
     // Спрашиваю у пользователя "Ваш месячный доход?"
-    money = prompt("Ваш месячный доход?");
+    money = prompt("Ваш месячный доход?", 50000);
   } while (!isNumber(money));
 };
 start();
@@ -20,6 +20,8 @@ const appData = {
   expenses: {},
   addExpenses: [],
   deposit: false,
+  persentDeposit: 0,
+  moneyDeposit: 0,
   mission: 50000,
   period: 3,
   budget: money,
@@ -27,20 +29,40 @@ const appData = {
   budgetMonth: 0,
   expensesMonth: 0,
   asking: function () {
+    if (confirm("Есть ли у вас дополнительный заработок?")) {
+      let itemIncome;
+      let cashIncome;
+      do {
+        itemIncome = prompt(
+          "Какой у вас есть дополнительный заработок?",
+          "Автомастерская"
+        );
+      } while (isNumber(itemIncome) || itemIncome.trim() === "");
+      do {
+        cashIncome = prompt("Сколько в месяц вы на этом зарабатываете?", 10000);
+      } while (!isNumber(cashIncome));
+      appData.income[itemIncome] = cashIncome;
+    }
+
     const addExpenses = prompt(
-      "Перечислите возможные расходы за рассчитываемый период через запятую"
+      "Перечислите возможные расходы за рассчитываемый период через запятую",
+      "Кино, театр"
     );
     // Спрашиваю у пользователя "Перечислите возможные расходы за рассчитываемый период через запятую"
-    
+
     // Привожу возможные расходы к нижнему регистру и вношу в масив
     appData.addExpenses = addExpenses.toLowerCase().split(", ");
 
     // Спрашиваю у пользователя "Есть ли у вас депозит в банке?"
     appData.deposit = confirm("Есть ли у вас депозит в банке?");
+    appData.getInfoDeposit();
 
     // Спашиваю у пользователя о его обязатеных статьях расходов и во сколько это обойдётся
     for (let i = 0; i < 2; i++) {
-      const question = prompt("Введите обязательную статью расходов?");
+      let question;
+      do {
+        question = prompt("Введите обязательную статью расходов?");
+      } while (isNumber(question) || question.trim() === "");
       do {
         appData.expenses[question] = prompt("Во сколько это обойдется?");
       } while (!isNumber(appData.expenses[question]));
@@ -78,6 +100,19 @@ const appData = {
       return "Что то пошло не так";
     }
   },
+  getInfoDeposit: function () {
+    if (appData.deposit) {
+      do {
+        appData.persentDeposit = prompt("Какой годовой процент?", 10);
+      } while (!isNumber(appData.persentDeposit));
+      do {
+        appData.moneyDeposit = prompt("Какая сумма заложена?", 10000);
+      } while (!isNumber(appData.moneyDeposit));
+    }
+  },
+  calcSavedMoney: function () {
+    return appData.budgetMonth * appData.period;
+  },
 };
 appData.asking();
 appData.getExpensesMonth();
@@ -101,5 +136,17 @@ if (appData.getTargetMonth() > 0) {
 console.log(appData.getStatusIncome());
 
 for (const key in appData) {
-  console.log('Наша программа включает в себя данные: Ключ: ' + key + '; Значение: ' + appData[key] + ';');
+  console.log(
+    "Наша программа включает в себя данные: Ключ: " +
+      key +
+      "; Значение: " +
+      appData[key] +
+      ";"
+  );
 }
+
+// Вывожу возможные расходы строкой. Каждое слово с большой буквы, через запятую и пробел
+appData.addExpenses.forEach(function(item, i, array) {
+  appData.addExpenses[i] = item[0].toUpperCase() + item.slice(1);
+});
+console.log(appData.addExpenses.join(', '));
