@@ -1,3 +1,5 @@
+'use strict';
+
 const booksInner = document.querySelector('.books');
 const books = document.querySelectorAll('.book');
 
