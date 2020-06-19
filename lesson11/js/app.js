@@ -40,6 +40,18 @@ const appData = {
   budgetMonth: 0,
   expensesMonth: 0,
   start: function () {
+    appData.income = {};
+    appData.incomeMonth = 0;
+    appData.addIncome = [];
+    appData.expenses = {};
+    appData.addExpenses = [];
+    appData.deposit = false;
+    appData.persentDeposit = 0;
+    appData.moneyDeposit = 0;
+    appData.budget = 0;
+    appData.budgetDay = 0;
+    appData.budgetMonth = 0;
+    appData.expensesMonth = 0;
 
     appData.budget = +salaryAmount.value;
 
@@ -53,6 +65,7 @@ const appData = {
     appData.showResult();
   },
   showResult: function() {
+    
     budgetMonthValue.value = appData.budgetMonth;
     budgetDayValue.value = appData.budgetDay;
     expensesMonthValue.value = appData.expensesMonth;
