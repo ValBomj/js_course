@@ -1,0 +1,30 @@
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+.colorPicker {
+  max-width: 250px;
+  width: 100%;
+  height: 200px;
+  margin: auto;
+  text-align: center;
+}
+
+.colorPicker-title {
+  color: #000;
+  font-size: 48px;
+}
+
+.colorPicker-btn {
+  height: 60px;
+  width: 100%;
+  border: 1px solid #000;
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 18px;
+}
