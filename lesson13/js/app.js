@@ -24,12 +24,14 @@ const targetAmount = document.querySelector(".target-amount");
 const periodSelect = document.querySelector(".period-select");
 let incomeItems = document.querySelectorAll('.income-items');
 
+const data = document.querySelector('.data');
+const placeholderInput = data.querySelectorAll('input');
+
 const isNumber = function (n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
 
 const inputValidation = function() {
-  const placeholderInput = document.querySelectorAll('input');
   placeholderInput.forEach(function(item) {
     if (item.placeholder === 'Сумма') {
       item.addEventListener('keyup', function(e) {
@@ -73,6 +75,13 @@ const appData = {
   budgetDay: 0,
   budgetMonth: 0,
   expensesMonth: 0,
+  inputBlock: function() {
+    placeholderInput.forEach(function(item) {
+      if (item.type === 'text') {
+        item.disabled = !item.disabled;
+      }
+    });
+  },
   reset: function() {
     cancel.addEventListener('click', appData.reset);
     this.income = {};
@@ -98,6 +107,7 @@ const appData = {
 
     start.style.display = 'block';
     cancel.style.display = 'none';
+    appData.inputBlock();
   },
   start: function () {
     appData.reset();
