@@ -73,7 +73,26 @@ const registerFunc = function () {
     password.trim() === ""
   );
 
-  const date = new Date();
+  const newDate = new Date();
+  // Число от 1 до 31
+  const date = newDate.getDate();
+  // Месяц на русском
+  const month = newDate.toLocaleString('ru', {month: 'long'});
+  // Окончание "я" у месяца
+  const newMonth = month.slice(0, month.length - 1) + 'я';
+  // Год
+  const year = newDate.getFullYear();
+  // Часы
+  const hours = newDate.getHours();
+  // Минуты 
+  const minutes = newDate.getMinutes();
+  // Секунды
+  const seconds = newDate.getSeconds();
+
+  const regDate = date + ' ' + newMonth + ' ' + year + ' г., ' + hours + '.' + minutes + '.' + seconds;
+
+
+
   const name = fullName.split(" ")[0];
   const lastName = fullName.split(" ")[1];
 
@@ -82,7 +101,7 @@ const registerFunc = function () {
     userLastname: lastName,
     userLogin: login,
     userPassword: password,
-    userDate: date,
+    userDate: regDate,
   });
 
   render();
