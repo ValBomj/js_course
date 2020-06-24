@@ -96,9 +96,20 @@ const appData = {
     });
   },
   reset: function() {
+    const _this = this;
+    start.disabled = true;
     cancel.addEventListener('click', function() {
+      salaryAmount.addEventListener('blur', function() {
+        if(salaryAmount.value.trim().length > 0) { 
+          start.disabled = false;
+          start.addEventListener('click', boundStart);
+        } else { 
+          start.disabled = true;
+          start.removeEventListener('click', boundStart);
+        }
+      });
 
-      appData.inputReset();
+      _this.inputReset();
 
       boundReset();
     });
