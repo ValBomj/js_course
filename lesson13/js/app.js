@@ -25,13 +25,14 @@ const periodSelect = document.querySelector(".period-select");
 let incomeItems = document.querySelectorAll('.income-items');
 
 const data = document.querySelector('.data');
-const placeholderInput = data.querySelectorAll('input');
+let placeholderInput = data.querySelectorAll('input');
 
 const isNumber = function (n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
 
 const inputValidation = function() {
+  let placeholderInput = data.querySelectorAll('input');
   placeholderInput.forEach(function(item) {
     if (item.placeholder === 'Сумма') {
       item.addEventListener('keyup', function(e) {
@@ -45,7 +46,7 @@ const inputValidation = function() {
         });
       })
     }
-    if (item.placeholder === 'Наименование') {
+    if (item.placeholder === 'Наименование' || item.placeholder === 'название') {
       item.addEventListener('keyup', function(e) {
 
         const itemValueArr = item.value.split('');
@@ -76,14 +77,31 @@ const appData = {
   budgetMonth: 0,
   expensesMonth: 0,
   inputBlock: function() {
+    let placeholderInput = data.querySelectorAll('input');
     placeholderInput.forEach(function(item) {
       if (item.type === 'text') {
         item.disabled = !item.disabled;
       }
     });
   },
+  inputReset: function() {
+    let placeholderInput = data.querySelectorAll('input');
+    placeholderInput.forEach(function(item) {
+      item.value = '';
+      if (item.type === 'range') {
+        item.value = 1;
+        const periodAmount = document.querySelector('.period-amount');
+        periodAmount.textContent = '1';
+      }
+    });
+  },
   reset: function() {
-    cancel.addEventListener('click', boundReset);
+    cancel.addEventListener('click', function() {
+
+      appData.inputReset();
+
+      boundReset();
+    });
     this.income = {};
     this.incomeMonth = 0;
     this.addIncome = [];
@@ -145,6 +163,8 @@ const appData = {
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesPlus);
     inputValidation();  
     expensesItems = document.querySelectorAll('.expenses-items');
+
+    start.addEventListener('click', appData.inputBlock);
     
     if (expensesItems.length === 3) {
       expensesPlus.style.display = 'none';
