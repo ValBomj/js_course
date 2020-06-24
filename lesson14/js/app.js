@@ -101,8 +101,18 @@ AppData.prototype.inputReset = function() {
 };
 AppData.prototype.reset = function() {
   const _this = this;
-
+  start.disabled = true;
   cancel.addEventListener('click', function() {
+    const salaryAmount = document.querySelector('.salary-amount');
+    salaryAmount.addEventListener('blur', function() {
+      if(salaryAmount.value.trim().length > 0) { 
+        start.disabled = false;
+        start.addEventListener('click',  _this.start);
+      } else { 
+        start.disabled = true;
+        start.removeEventListener('click',  _this.start);
+      }
+    });
 
     _this.inputReset();
 
