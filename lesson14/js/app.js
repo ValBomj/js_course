@@ -102,22 +102,11 @@ AppData.prototype.inputReset = function() {
 AppData.prototype.reset = function() {
   const _this = this;
   start.disabled = true;
-  cancel.addEventListener('click', function() {
-    const salaryAmount = document.querySelector('.salary-amount');
-    salaryAmount.addEventListener('blur', function() {
-      if(salaryAmount.value.trim().length > 0) { 
-        start.disabled = false;
-        start.addEventListener('click',  _this.start);
-      } else { 
-        start.disabled = true;
-        start.removeEventListener('click',  _this.start);
-      }
-    });
 
-    _this.inputReset();
-
-    _this.reset();
-  });
+  start.style.display = 'block';
+  cancel.style.display = 'none';
+};
+AppData.prototype.nullData = function() {
   this.income = {};
   this.incomeMonth = 0;
   this.addIncome = [];
@@ -137,13 +126,11 @@ AppData.prototype.reset = function() {
   additionalIncomeValue.value = '';
   targetMonthValue.value = '';
   incomePeriodValue.value = '';
-
-  start.style.display = 'block';
-  cancel.style.display = 'none';
-  this.inputBlock();
 };
 AppData.prototype.start = function () {
+  this.nullData();
   this.reset();
+  this.inputBlock();
   this.budget = +salaryAmount.value;
 
   this.getExpenses();
@@ -267,6 +254,7 @@ AppData.prototype.calcSavedMoney = function () {
 
 AppData.prototype.eventListeners = function() {
   const _this = this;
+  const boundStart =  _this.start.bind( _this);
   salaryAmount.addEventListener('blur', function() {
     if(salaryAmount.value.trim().length > 0) { 
       start.disabled = false;
@@ -276,8 +264,17 @@ AppData.prototype.eventListeners = function() {
       start.removeEventListener('click', boundStart);
     }
   });
+
   
-  const boundStart =  _this.start.bind( _this);
+  cancel.addEventListener('click', function() {
+    _this.inputBlock();
+    _this.nullData();
+
+    _this.inputReset();
+
+    _this.reset();
+  });
+  
   
   expensesPlus.addEventListener('click', _this.addExpensesBlock);
   incomePlus.addEventListener('click', _this.addIncomeBlock);
