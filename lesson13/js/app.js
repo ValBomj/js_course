@@ -174,8 +174,6 @@ const appData = {
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesPlus);
     inputValidation();  
     expensesItems = document.querySelectorAll('.expenses-items');
-
-    start.addEventListener('click', appData.inputBlock);
     
     if (expensesItems.length === 3) {
       expensesPlus.style.display = 'none';
