@@ -83,7 +83,7 @@ class AppData {
     this.addExpenses = [];
   }
 
-  inputBlock = function () {
+  inputBlock() {
     const placeholderInput = data.querySelectorAll('input');
     placeholderInput.forEach((item) => {
       item.disabled = !item.disabled;
@@ -91,7 +91,7 @@ class AppData {
     incomePlus.disabled = !incomePlus.disabled;
     expensesPlus.disabled = !expensesPlus.disabled;
   };
-  inputReset = function () {
+  inputReset() {
     const placeholderInput = data.querySelectorAll('input');
     placeholderInput.forEach((item) => {
       item.value = '';
@@ -102,7 +102,7 @@ class AppData {
       }
     });
   };
-  reset = function () {
+  reset() {
     const expensesItems = document.querySelectorAll('.expenses-items');
     const incomeItems = document.querySelectorAll('.income-items');
 
@@ -142,7 +142,7 @@ class AppData {
     targetMonthValue.value = '';
     incomePeriodValue.value = '';
   };
-  start = function () {
+  start() {
     this.inputBlock();
     this.budget = +salaryAmount.value;
 
@@ -157,7 +157,7 @@ class AppData {
     start.style.display = 'none';
     cancel.style.display = 'block';
   };
-  showResult = function () {
+  showResult() {
     budgetMonthValue.value = this.budgetMonth;
     budgetDayValue.value = this.budgetDay;
     expensesMonthValue.value = this.expensesMonth;
@@ -170,7 +170,7 @@ class AppData {
       incomePeriodValue.value = this.calcPeriod();
     });
   };
-  addExpensesBlock = function () {
+  addExpensesBlock() {
     const cloneExpensesItem = expensesItems[0].cloneNode(true);
     const inputs = cloneExpensesItem.querySelectorAll('input');
     inputs.forEach((item) => {
@@ -184,7 +184,7 @@ class AppData {
       expensesPlus.style.display = 'none';
     }
   };
-  addIncomeBlock = function () {
+  addIncomeBlock() {
     const cloneIncomeItem = incomeItems[0].cloneNode(true);
     const inputs = cloneIncomeItem.querySelectorAll('input');
     inputs.forEach((item) => {
@@ -198,7 +198,7 @@ class AppData {
       incomePlus.style.display = 'none';
     }
   };
-  getExpenses = function () {
+  getExpenses() {
     expensesItems.forEach((item) => {
       const itemExpenses = item.querySelector('.expenses-title').value;
       const cashExpenses = item.querySelector('.expenses-amount').value;
@@ -207,7 +207,7 @@ class AppData {
       }
     });
   };
-  getIncome = function () {
+  getIncome() {
     incomeItems.forEach((item) => {
       const itemIncome = item.querySelector('.income-title').value;
       const cashIncome = item.querySelector('.income-amount').value;
@@ -219,7 +219,7 @@ class AppData {
       this.incomeMonth += +this.income[key];
     }
   };
-  getAddExpenses = function () {
+  getAddExpenses() {
     const addExpenses = additionalExpensesItem.value.split(',');
     addExpenses.forEach((item) => {
       item = item.trim();
@@ -228,7 +228,7 @@ class AppData {
       }
     });
   };
-  getAddIncome = function () {
+  getAddIncome() {
     additionalIncomeItem.forEach((item) => {
       const itemValue = item.value.trim();
       if (itemValue !== '') {
@@ -237,28 +237,28 @@ class AppData {
     });
   };
   // Вычисляем сумму всех обязательных доходов за месяц
-  getExpensesMonth = function () {
+  getExpensesMonth() {
     for (const key in this.expenses) {
       this.expensesMonth += +this.expenses[key];
     }
     return this.expensesMonth;
   };
   // Вычисляем бюджет на месяц и на день
-  getBudget = function () {
+  getBudget() {
     this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth;
     this.budgetDay = Math.floor(this.budgetMonth / 30);
   };
   // Вычисляем срок достижения цели (в месяцах)
-  getTargetMonth = function () {
+  getTargetMonth() {
     return targetAmount.value / this.budgetMonth;
   };
-  calcPeriod = function () {
+  calcPeriod() {
     return this.budgetMonth * periodSelect.value;
   };
-  calcSavedMoney = function () {
+  calcSavedMoney() {
     return this.budgetMonth * this.period;
   };
-  eventListeners = function () {
+  eventListeners() {
     start.disabled = true;
     salaryAmount.addEventListener('blur', () => {
       if (salaryAmount.value.trim().length > 0) {
