@@ -86,7 +86,9 @@ class AppData {
   inputBlock() {
     const placeholderInput = data.querySelectorAll('input');
     placeholderInput.forEach((item) => {
-      item.disabled = !item.disabled;
+      if (item.type !== 'range') {
+        item.disabled = !item.disabled;
+      }
     });
     incomePlus.disabled = !incomePlus.disabled;
     expensesPlus.disabled = !expensesPlus.disabled;
