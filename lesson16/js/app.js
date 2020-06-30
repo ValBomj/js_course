@@ -41,7 +41,7 @@ const placeholderInput = data.querySelectorAll('input');
 const inputValidation = () => {
   const placeholderInput = data.querySelectorAll('input');
   placeholderInput.forEach((item) => {
-    if (item.placeholder === 'Сумма') {
+    if (item.placeholder === 'Сумма' || item.placeholder === 'Процент') {
       item.addEventListener('keyup', function (e) {
         const itemValueArr = item.value.split('');
         itemValueArr.forEach((letter, i, array) => {
@@ -89,7 +89,9 @@ class AppData {
   inputBlock() {
     const placeholderInput = data.querySelectorAll('input');
     placeholderInput.forEach((item) => {
-      item.disabled = !item.disabled;
+      if (item.type !== 'range') {
+        item.disabled = !item.disabled;
+      }
     });
     incomePlus.disabled = !incomePlus.disabled;
     expensesPlus.disabled = !expensesPlus.disabled;
@@ -148,6 +150,7 @@ class AppData {
 
     checkbox.checked = false;
     this.depositHandler();
+    this.changePercent();
   };
   start() {
     this.inputBlock();
