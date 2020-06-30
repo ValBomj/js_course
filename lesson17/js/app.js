@@ -1,36 +1,14 @@
 'use strict';
-const a = document.querySelector('#a');
-const b = document.querySelector('#b');
+function getResult(x,y){
+  let result;
+  
+  const pow = (Math.pow(x,y) + '').split('');
 
-const res = document.querySelector('#res');
+  const powToNum = pow.map((item) => +item)
+  
+  result = powToNum.reduce((acc, item) => acc + item);
 
-const sum = document.querySelector('#sum');
-const mult = document.querySelector('#mult');
-
-
-
-
-const calculator = {
-  init(){
-    this.a = +a.value;
-    this.b = +b.value;
-  },
-  sum(){
-    this.init();
-    this.show(this.a + this.b);
-  },
-  mult(){
-    this.init();
-    this.show(this.a * this.b);
-  },
-  show(result){
-    this.a && this.b ? res.value = result : false;
-  },
-  eventListeners(){
-    sum.addEventListener('click', this.sum.bind(this));
-    mult.addEventListener('click', this.mult.bind(this));
-  }
+  return result
 }
 
-calculator.eventListeners();
-calculator.init();
+console.log(getResult(7, 10))
