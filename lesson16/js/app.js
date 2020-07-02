@@ -302,6 +302,7 @@ class AppData {
   };
   eventListeners() {
     start.disabled = true;
+    salaryAmount.removeEventListener('input', function(){});
     salaryAmount.addEventListener('input', () => {
       start.disabled = salaryAmount.value.trim().length > 0 ? false : true;
     });
