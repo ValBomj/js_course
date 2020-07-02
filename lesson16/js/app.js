@@ -270,7 +270,8 @@ class AppData {
     if (valueSelect === 'other') {
       depositPercent.value = '';
       depositPercent.style.display = 'inline-block';
-      depositPercent.addEventListener('blur', function() {
+      depositPercent.removeEventListener('input', function(){});
+      depositPercent.addEventListener('input', function() {
         if (depositPercent.value < 1 || depositPercent.value > 100) {
           alert('Введите корректное значение в поле проценты!');
           depositPercent.value = 0;
@@ -301,10 +302,8 @@ class AppData {
   };
   eventListeners() {
     start.disabled = true;
-    salaryAmount.addEventListener('blur', () => {
-      if (salaryAmount.value.trim().length > 0) {
-        start.disabled = false;
-      }
+    salaryAmount.addEventListener('input', () => {
+      start.disabled = salaryAmount.value.trim().length > 0 ? false : true;
     });
     start.addEventListener('click', this.start.bind(this));
 
