@@ -134,7 +134,7 @@ class AppData {
     this.expenses = {};
     this.addExpenses = [];
     this.deposit = false;
-    this.persentDeposit = 0;
+    this.percentDeposit = 0;
     this.moneyDeposit = 0;
     this.budget = 0;
     this.budgetDay = 0;
@@ -153,6 +153,10 @@ class AppData {
     this.changePercent();
   };
   start() {
+    if (checkbox.checked && depositAmount.value === '' || depositBank.selectedIndex === 0) {
+    checkbox.checked = false;
+      this.depositHandler();
+    }
     this.inputBlock();
     this.budget = +salaryAmount.value;
 
@@ -166,6 +170,7 @@ class AppData {
     this.showResult();
     start.style.display = 'none';
     cancel.style.display = 'block';
+
   };
   showResult() {
     budgetMonthValue.value = this.budgetMonth;
@@ -244,7 +249,7 @@ class AppData {
   getBudget() {
     this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth;
     if (this.deposit) {
-      const monthDeposit = this.moneyDeposit * (this.percentDeposit / 100);
+      const monthDeposit = +this.moneyDeposit * (this.percentDeposit / 100);
       this.budgetMonth += monthDeposit;
     }
     this.budgetDay = Math.floor(this.budgetMonth / 30);
@@ -265,21 +270,23 @@ class AppData {
       this.moneyDeposit = depositAmount.value;
     }
   };
+  
   changePercent() {
     const valueSelect = this.value;
+    const percentCheck = function() {
+      if (depositPercent.value < 1 || depositPercent.value > 100 || depositPercent.value.trim() === '') {
+        alert('Введите корректное значение в поле проценты!');
+        depositPercent.value = 0;
+        start.disabled = true;
+      } else {
+        start.disabled = salaryAmount.value.trim().length > 0 ? false : true;
+      }
+    };
     if (valueSelect === 'other') {
       depositPercent.value = '';
       depositPercent.style.display = 'inline-block';
-      depositPercent.removeEventListener('input', function(){});
-      depositPercent.addEventListener('input', function() {
-        if (depositPercent.value < 1 || depositPercent.value > 100) {
-          alert('Введите корректное значение в поле проценты!');
-          depositPercent.value = 0;
-          start.disabled = true;
-        } else {
-          start.disabled = false;
-        }
-      })
+      depositPercent.removeEventListener('input', percentCheck);
+      depositPercent.addEventListener('input', percentCheck);
     } else {
       depositPercent.style.display = 'none';
       depositPercent.value = valueSelect;
@@ -294,6 +301,7 @@ class AppData {
     } else {
       depositBank.style.display = 'none';
       depositAmount.style.display = 'none';
+      depositPercent.style.display = 'none';
       depositBank.value = '';
       depositAmount.value = '';
       this.deposit = false;
