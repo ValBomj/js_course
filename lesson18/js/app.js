@@ -2,12 +2,12 @@ window.addEventListener("DOMContentLoaded", () => {
   "use strict";
 
   // Timer
-  function countTimer(deadline) {
+  const countTimer = deadline => {
     const timerHours = document.querySelector("#timer-hours"),
       timerMinutes = document.querySelector("#timer-minutes"),
       timerSeconds = document.querySelector("#timer-seconds");
 
-    function getTimeRemaining() {
+    const getTimeRemaining = () => {
       const dateStop = new Date(deadline).getTime(),
         dateNow = new Date().getTime(),
         timeRemaining = (dateStop - dateNow) / 1000,
@@ -16,18 +16,18 @@ window.addEventListener("DOMContentLoaded", () => {
         hours = Math.floor(timeRemaining / 60 / 60);
 
       return { timeRemaining, hours, minutes, seconds };
-    }
+    };
 
-    function updateClock() {
+    const updateClock = () => {
       const timer = getTimeRemaining();
 
-      function addZero(time) {
+      const addZero = time => {
         if (time >= 0 && time <= 9) {
           return "0" + time;
         } else {
           return time;
         }
-      }
+      };
 
       if (timer.seconds >= 0) {
         timerHours.textContent = addZero(timer.hours);
@@ -39,11 +39,11 @@ window.addEventListener("DOMContentLoaded", () => {
         timerSeconds.textContent = "00";
       }
 
-      timer.timeRemaining > 0 ? setInterval(updateClock, 1000) : clearInterval(updateClock, 1000);
-    }
+      if (timer.timeRemaining <= 0) clearInterval(updateClock, 1000);
+    };
 
-    updateClock();
-  }
+    setInterval(updateClock, 1000);
+  };
 
   countTimer("5 july 2020");
 });
