@@ -1,8 +1,8 @@
 window.addEventListener("DOMContentLoaded", () => {
   "use strict";
 
-  Timer
-  const countTimer = (deadline) => {
+  // Timer
+  const countTimer = deadline => {
     const timerHours = document.querySelector("#timer-hours"),
       timerMinutes = document.querySelector("#timer-minutes"),
       timerSeconds = document.querySelector("#timer-seconds");
@@ -21,7 +21,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const updateClock = () => {
       const timer = getTimeRemaining();
 
-      const addZero = (time) => {
+      const addZero = time => {
         if (time >= 0 && time <= 9) {
           return "0" + time;
         } else {
@@ -46,6 +46,36 @@ window.addEventListener("DOMContentLoaded", () => {
   };
   countTimer("5 july 2020");
 
+  // Scroll animation
+  let menuInter;
+  const scrollAnimation = divTop => {
+    const top = 50;
+    if (document.documentElement.scrollTop < divTop) {
+      document.documentElement.scrollTop += top;
+      menuInter = requestAnimationFrame(() => {
+        scrollAnimation(divTop);
+      });
+    } else {
+      cancelAnimationFrame(menuInter);
+    }
+  };
+
+  const a = document.querySelectorAll("a");
+  a.forEach(item => {
+    if (
+      item.getAttribute("href").slice(0, 1) === "#" &&
+      item.getAttribute("href").slice(1).length > 0 &&
+      item.getAttribute("href").slice(1) !== "close"
+    ) {
+      const div = document.querySelector(`${item.getAttribute("href")}`)
+        .offsetTop;
+      item.addEventListener("click", e => {
+        e.preventDefault();
+        scrollAnimation(div);
+      });
+    }
+  });
+
   // Menu
   const toggleMenu = () => {
     const btnMenu = document.querySelector(".menu"),
@@ -55,12 +85,13 @@ window.addEventListener("DOMContentLoaded", () => {
       menu.classList.toggle("active-menu");
     };
 
-    btnMenu.addEventListener("click", handlerMenu);
+    btnMenu.addEventListener("click", () => {
+      handlerMenu();
+    });
 
-    menu.addEventListener('click', () => {
-      let target = event.target.getAttribute('href');
-      target = event.target.closest('.close-btn');
-      if (event.target.tagName === 'A' || target) {
+    menu.addEventListener("click", e => {
+      const target = event.target.closest(".close-btn");
+      if (e.target.tagName === "A" || target) {
         handlerMenu();
       }
     });
