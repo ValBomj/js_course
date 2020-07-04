@@ -6,12 +6,6 @@ const body = document.querySelector('body'),
   currentTime = document.createElement('p'),
   newYearYearsLeft = document.createElement('p');
 
-body.appendChild(greeting);
-body.appendChild(presentDay);
-body.appendChild(currentTime);
-body.appendChild(newYearYearsLeft);
-
-
 
 const calcTime = () => {
   const date = new Date(),
@@ -41,3 +35,8 @@ const calcTime = () => {
   newYearYearsLeft.textContent = `До нового года осталось ${dayDeclination(timeBeforeNewYear, day)}`;
 }
 setInterval(calcTime, 1000);
+
+body.appendChild(greeting);
+body.appendChild(presentDay);
+body.appendChild(currentTime);
+body.appendChild(newYearYearsLeft);

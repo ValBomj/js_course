@@ -1,6 +1,7 @@
 window.addEventListener("DOMContentLoaded", () => {
   "use strict";
 
+
   // Timer
   const countTimer = deadline => {
     const timerHours = document.querySelector("#timer-hours"),
@@ -18,31 +19,29 @@ window.addEventListener("DOMContentLoaded", () => {
       return { timeRemaining, hours, minutes, seconds };
     };
 
+    const addZero = time => {
+      if (time >= 0 && time <= 9) {
+        return "0" + time;
+      } else {
+        return time;
+      }
+    };
+
     const updateClock = () => {
       const timer = getTimeRemaining();
 
-      const addZero = time => {
-        if (time >= 0 && time <= 9) {
-          return "0" + time;
-        } else {
-          return time;
-        }
-      };
+      timerHours.textContent = addZero(timer.hours);
+      timerMinutes.textContent = addZero(timer.minutes);
+      timerSeconds.textContent = addZero(timer.seconds);
 
-      if (timer.seconds >= 0) {
-        timerHours.textContent = addZero(timer.hours);
-        timerMinutes.textContent = addZero(timer.minutes);
-        timerSeconds.textContent = addZero(timer.seconds);
-      } else {
+      if (timer.seconds === 0 && timer.minutes === 0 && timer.hours === 0) {
         timerHours.textContent = "00";
         timerMinutes.textContent = "00";
         timerSeconds.textContent = "00";
+        clearInterval(startUpdateClock);
       }
-
-      if (timer.timeRemaining <= 0) clearInterval(updateClock, 1000);
     };
-
-    setInterval(updateClock, 1000);
+    const startUpdateClock = setInterval(updateClock, 1000);
   };
 
   countTimer("5 july 2020");
