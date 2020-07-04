@@ -39,10 +39,10 @@ window.addEventListener("DOMContentLoaded", () => {
         timerSeconds.textContent = "00";
       }
 
-      timer.timeRemaining > 0 ? setInterval(updateClock, 1000) : clearInterval(updateClock, 1000);
+      if (timer.timeRemaining <= 0) clearInterval(updateClock, 1000);
     };
 
-    updateClock();
+    setInterval(updateClock, 1000);
   };
   countTimer("5 july 2020");
 
