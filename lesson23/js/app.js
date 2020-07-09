@@ -310,7 +310,9 @@ window.addEventListener("DOMContentLoaded", () => {
     const countSum = () => {
       let total = 0,
         countValue = 1,
-        dayValue = 1;
+        dayValue = 1,
+        timeout,
+        counter = 0;
       const typeValue = calcType.options[calcType.selectedIndex].value,
         squareValue = +calcSquare.value;
 
@@ -328,7 +330,18 @@ window.addEventListener("DOMContentLoaded", () => {
         total = price * typeValue * squareValue * countValue * dayValue;
       }
 
-      totalValue.textContent = total;
+      const animation = total => {
+        counter += 10;
+        totalValue.textContent = counter;
+        if (counter < total) {
+          timeout = requestAnimationFrame(() => {
+            animation(total);
+          });
+        } else {
+          cancelAnimationFrame(timeout);
+        }
+      };
+      animation(total);
     };
 
     calcBlock.addEventListener('input', e => {
