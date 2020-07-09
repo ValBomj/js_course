@@ -278,4 +278,37 @@ window.addEventListener("DOMContentLoaded", () => {
     startSlide(1000);
   };
   slider();
+
+  // Team
+  const ourTeam = () => {
+    const command = document.getElementById('command');
+    const addImgSrc = e => {
+      const target = e.target;
+      const src = target.src;
+      if (target.closest('img.command__photo')) {
+        target.src = target.dataset.img;
+        const removeSrc = () => {
+          target.src = src;
+          command.removeEventListener('mouseout', removeSrc);
+        };
+        command.addEventListener('mouseout', removeSrc);
+      }
+    };
+    command.addEventListener('mouseover', addImgSrc);
+  };
+  ourTeam();
+
+  // Calculator
+  const calculator = () => {
+    const calc = document.getElementById('calc');
+
+    calc.addEventListener('input', e => {
+      const target = e.target;
+      if (target.closest('input')) {
+        const value = target.value;
+        target.value = value.replace(/\D/g, '');
+      }
+    });
+  };
+  calculator();
 });
