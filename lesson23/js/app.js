@@ -331,15 +331,18 @@ window.addEventListener("DOMContentLoaded", () => {
       totalValue.textContent = total;
     };
 
-
-    calcBlock.addEventListener("input", e => {
+    calcBlock.addEventListener('input', e => {
       const target = e.target;
-      if (target.matches("input") || target.matches("select")) {
-        countSum();
-      }
       if (target.closest("input")) {
         const value = target.value;
         target.value = value.replace(/\D/g, "");
+      }
+    });
+
+    calcBlock.addEventListener("change", e => {
+      const target = e.target;
+      if (target.matches("input") || target.matches("select")) {
+        countSum();
       }
     });
   };
