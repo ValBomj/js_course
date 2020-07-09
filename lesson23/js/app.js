@@ -199,11 +199,10 @@ window.addEventListener("DOMContentLoaded", () => {
     const dot = document.querySelectorAll(".dot"),
       slider = document.querySelector(".portfolio-content");
 
-
     let currentSlide = 0,
       interval;
 
-    dot[currentSlide].classList.add('dot-active');
+    dot[currentSlide].classList.add("dot-active");
 
     const prevSlide = (elem, index, strClass) => {
       elem[index].classList.remove(strClass);
@@ -281,34 +280,68 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Team
   const ourTeam = () => {
-    const command = document.getElementById('command');
+    const command = document.getElementById("command");
     const addImgSrc = e => {
       const target = e.target;
       const src = target.src;
-      if (target.closest('img.command__photo')) {
+      if (target.closest("img.command__photo")) {
         target.src = target.dataset.img;
         const removeSrc = () => {
           target.src = src;
-          command.removeEventListener('mouseout', removeSrc);
+          command.removeEventListener("mouseout", removeSrc);
         };
-        command.addEventListener('mouseout', removeSrc);
+        command.addEventListener("mouseout", removeSrc);
       }
     };
-    command.addEventListener('mouseover', addImgSrc);
+    command.addEventListener("mouseover", addImgSrc);
   };
   ourTeam();
 
   // Calculator
-  const calculator = () => {
-    const calc = document.getElementById('calc');
+  const calculator = (price = 100) => {
+    const calcBlock = document.querySelector(".calc-block"),
+      calcType = document.querySelector(".calc-type"),
+      calcSquare = document.querySelector(".calc-square"),
+      calcDay = document.querySelector(".calc-day"),
+      calcCount = document.querySelector(".calc-count"),
+      totalValue = document.getElementById("total");
 
-    calc.addEventListener('input', e => {
+
+    const countSum = () => {
+      let total = 0,
+        countValue = 1,
+        dayValue = 1;
+      const typeValue = calcType.options[calcType.selectedIndex].value,
+        squareValue = +calcSquare.value;
+
+      if (calcCount.value > 1) {
+        countValue += (calcCount.value - 1) / 10;
+      }
+
+      if (calcDay.value && calcDay.value < 5) {
+        dayValue *= 2;
+      } else if (calcDay.value && calcDay.value < 10) {
+        dayValue *= 1.5;
+      }
+
+      if (typeValue && squareValue) {
+        total = price * typeValue * squareValue * countValue * dayValue;
+      }
+
+      totalValue.textContent = total;
+    };
+
+
+    calcBlock.addEventListener("input", e => {
       const target = e.target;
-      if (target.closest('input')) {
+      if (target.matches("input") || target.matches("select")) {
+        countSum();
+      }
+      if (target.closest("input")) {
         const value = target.value;
-        target.value = value.replace(/\D/g, '');
+        target.value = value.replace(/\D/g, "");
       }
     });
   };
-  calculator();
+  calculator(100);
 });
