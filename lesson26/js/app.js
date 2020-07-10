@@ -306,7 +306,6 @@ window.addEventListener("DOMContentLoaded", () => {
       calcCount = document.querySelector(".calc-count"),
       totalValue = document.getElementById("total");
 
-
     const countSum = () => {
       let total = 0,
         countValue = 1,
@@ -344,7 +343,7 @@ window.addEventListener("DOMContentLoaded", () => {
       animation(total);
     };
 
-    calcBlock.addEventListener('input', e => {
+    calcBlock.addEventListener("input", e => {
       const target = e.target;
       if (target.closest("input")) {
         const value = target.value;
@@ -360,4 +359,77 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   };
   calculator(100);
+
+  const sendForm = formSelector => {
+    const errorMessage = "Что-то пошло не так",
+      loadMessage = "Загрузка....",
+      successMessage = "Спасибо! Мы скоро с вами свяжемся!",
+      form = document.getElementById(formSelector),
+      statusMessage = document.createElement("div");
+
+    statusMessage.style.cssText = "font-size: 2rem; color: white;";
+    form.addEventListener("submit", e => {
+      const fields = [...form.elements];
+      fields.forEach(item => item.value = '');
+      e.preventDefault();
+      form.appendChild(statusMessage);
+      statusMessage.textContent = loadMessage;
+      const formData = new FormData(form);
+      const body = {};
+      formData.forEach((value, key) => {
+        body[key] = value;
+      });
+      postData(
+        body,
+        () => {
+          statusMessage.textContent = successMessage;
+        },
+        error => {
+          statusMessage.textContent = errorMessage;
+          console.error(error);
+        }
+      );
+    });
+
+    const postData = (body, outputData, errorData) => {
+      const request = new XMLHttpRequest();
+
+      request.addEventListener("readystatechange", () => {
+        if (request.readyState !== 4) {
+          return;
+        }
+        if (request.status === 200) {
+          outputData();
+        } else {
+          errorData(request.status);
+        }
+      });
+
+      request.open("POST", "./server.php");
+      request.setRequestHeader("Content-Type", "application/json");
+
+      request.send(JSON.stringify(body));
+    };
+  };
+  sendForm('form1');
+  sendForm('form2');
+  sendForm('form3');
+
+  const formValid = () => {
+    const forms = document.querySelectorAll('form');
+    forms.forEach(item => {
+      if (item.tagName.toLocaleLowerCase() !== 'button' && item.type !== 'button') {
+        item.addEventListener('input', e => {
+          const target = e.target;
+          const value = target.value;
+          if (target.name === 'user_name' || target.name === 'user_message') {
+            target.value = value.replace(/[^а-яё ]/gi, "");
+          } else if (target.name === 'user_phone') {
+            target.value = value.replace(/[^+0-9]/gi, "");
+          }
+        });
+      }
+    });
+  };
+  formValid();
 });
