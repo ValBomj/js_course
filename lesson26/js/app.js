@@ -360,27 +360,29 @@ window.addEventListener("DOMContentLoaded", () => {
   };
   calculator(100);
 
-  const sendForm = formSelector => {
+  const sendForm = () => {
     const errorMessage = "Что-то пошло не так",
       loadMessage = "Загрузка....",
       successMessage = "Спасибо! Мы скоро с вами свяжемся!",
-      form = document.getElementById(formSelector),
+      form = document.getElementById('form1'),
       statusMessage = document.createElement("div");
 
     statusMessage.style.cssText = "font-size: 2rem; color: white;";
-    form.addEventListener("submit", e => {
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      form.appendChild(statusMessage);
+
       const fields = [...form.elements];
       fields.forEach(item => item.value = '');
-      e.preventDefault();
-      form.appendChild(statusMessage);
+
       statusMessage.textContent = loadMessage;
       const formData = new FormData(form);
+      console.log(formData);
       const body = {};
       formData.forEach((value, key) => {
         body[key] = value;
       });
-      postData(
-        body,
+      postData(body,
         () => {
           statusMessage.textContent = successMessage;
         },
@@ -411,9 +413,7 @@ window.addEventListener("DOMContentLoaded", () => {
       request.send(JSON.stringify(body));
     };
   };
-  sendForm('form1');
-  sendForm('form2');
-  sendForm('form3');
+  sendForm();
 
   const formValid = () => {
     const forms = document.querySelectorAll('form');
