@@ -379,10 +379,9 @@ window.addEventListener("DOMContentLoaded", () => {
       const fields = [...form.elements];
       let checkError = 1;
       fields.forEach(item => {
-        checkError *= item.classList.contains('error') ? 0 : 1;
+        checkError *= item.classList.contains("error") ? 0 : 1;
       });
       if (checkError) {
-
         form.appendChild(statusMessage);
         statusMessage.innerHTML = loadMessage;
         const formData = new FormData(form);
@@ -391,38 +390,31 @@ window.addEventListener("DOMContentLoaded", () => {
           body[key] = value;
         });
 
-        postData(
-          body,
-          () => {
+        postData(body)
+          .then(response => {
+            if (response.status !== 200) {
+              throw new Error("error");
+            }
             statusMessage.textContent = successMessage;
-          },
-          error => {
-            statusMessage.textContent = errorMessage;
+          })
+          .catch(error => {
             console.error(error);
-          }
-        );
-        form.elements.value = '';
+            statusMessage.textContent = errorMessage;
+          })
+          .finally(() => {
+            setTimeout(() => (statusMessage.textContent = ""), 2500);
+            [...form.elements].forEach(item => (item.value = ""));
+          });
       }
     });
 
-    const postData = (body, outputData, errorData) => {
-      const request = new XMLHttpRequest();
-
-      request.addEventListener("readystatechange", () => {
-        if (request.readyState !== 4) {
-          return;
-        }
-        if (request.status === 200) {
-          outputData();
-        } else {
-          errorData(request.status);
-        }
+    const postData = body =>
+      fetch("./server.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        credentials: "include",
       });
-
-      request.open("POST", "./server.php");
-      request.setRequestHeader("Content-Type", "application/json");
-      request.send(JSON.stringify(body));
-    };
   };
   sendForm();
 
