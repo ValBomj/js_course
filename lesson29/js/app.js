@@ -379,10 +379,9 @@ window.addEventListener("DOMContentLoaded", () => {
       const fields = [...form.elements];
       let checkError = 1;
       fields.forEach(item => {
-        checkError *= item.classList.contains('error') ? 0 : 1;
+        checkError *= item.classList.contains("error") ? 0 : 1;
       });
       if (checkError) {
-
         form.appendChild(statusMessage);
         statusMessage.innerHTML = loadMessage;
         const formData = new FormData(form);
@@ -394,7 +393,7 @@ window.addEventListener("DOMContentLoaded", () => {
         postData(body)
           .then(response => {
             if (response.status !== 200) {
-              throw new Error('error');
+              throw new Error("error");
             }
             console.log(response);
             statusMessage.textContent = successMessage;
@@ -403,12 +402,20 @@ window.addEventListener("DOMContentLoaded", () => {
             console.error(error);
             statusMessage.textContent = errorMessage;
           })
-          .finally(setTimeout(() => statusMessage.textContent = '', 5000));
-        form.elements.value = '';
+          .finally(() => {
+            setTimeout(() => (statusMessage.textContent = ""), 5000);
+            [...form.elements].forEach(item => (item.value = ""));
+          });
       }
     });
 
-    const postData = body => fetch("./server.php", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), credentials: 'include' });
+    const postData = body =>
+      fetch("./server.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        credentials: "include",
+      });
   };
   sendForm();
 
