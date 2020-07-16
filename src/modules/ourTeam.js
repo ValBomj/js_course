@@ -1,18 +1,20 @@
 const ourTeam = () => {
   const command = document.getElementById("command");
-  const addImgSrc = e => {
+
+  let src, dataSrc;
+  command.addEventListener('mouseover', e => {
+    if (!e.target.closest('img.command__photo')) return;
     const target = e.target;
-    const src = target.src;
-    if (target.closest("img.command__photo")) {
-      target.src = target.dataset.img;
-      const removeSrc = () => {
-        target.src = src;
-        command.removeEventListener("mouseout", removeSrc);
-      };
-      command.addEventListener("mouseout", removeSrc);
-    }
-  };
-  command.addEventListener("mouseover", addImgSrc);
+    src = target.src;
+    dataSrc = target.dataset.img;
+    target.src = dataSrc;
+  });
+
+  command.addEventListener('mouseout', e => {
+    if (!e.target.closest('img.command__photo')) return;
+    const target = e.target;
+    target.src = src;
+  });
 };
 
 export default ourTeam;

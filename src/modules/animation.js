@@ -17,19 +17,17 @@ const animation = () => {
     }
   };
 
-  const a = document.querySelectorAll("a");
-  a.forEach(item => {
+  document.addEventListener("click", e => {
+    if (!e.target.closest('a')) return;
+    const target = e.target.closest('a');
     if (
-      item.getAttribute("href").slice(0, 1) === "#" &&
-      item.getAttribute("href").slice(1).length > 0 &&
-      item.getAttribute("href").slice(1) !== "close"
+      target.getAttribute("href").slice(0, 1) === "#" &&
+      target.getAttribute("href").slice(1).length > 0 &&
+      target.getAttribute("href").slice(1) !== "close"
     ) {
-      const div = document.querySelector(`${item.getAttribute("href")}`)
-        .offsetTop;
-      item.addEventListener("click", e => {
-        e.preventDefault();
-        scrollAnimation(div);
-      });
+      const div = document.querySelector(`${target.closest('a').getAttribute("href")}`).offsetTop;
+      e.preventDefault();
+      scrollAnimation(div);
     }
   });
 };

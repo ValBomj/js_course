@@ -20,7 +20,7 @@ import sendForm from './modules/sendForm';
 import formValid from './modules/formValid';
 
 // Timer
-countTimer("5 july 2020");
+countTimer("16 july 2020");
 // Scroll animation
 animation();
 // Menu

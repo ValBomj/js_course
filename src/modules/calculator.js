@@ -30,7 +30,7 @@ const calculator = (price = 100) => {
     }
 
     const animation = total => {
-      counter += 10;
+      counter += total / 100 * 1.5;
       totalValue.textContent = counter;
       if (counter < total) {
         timeout = requestAnimationFrame(() => {
@@ -53,7 +53,7 @@ const calculator = (price = 100) => {
 
   calcBlock.addEventListener("change", e => {
     const target = e.target;
-    if (target.matches("input") || target.matches("select")) {
+    if (calcSquare.value.trim() !== '' && (target.matches("input") || target.matches("select"))) {
       countSum();
     }
   });

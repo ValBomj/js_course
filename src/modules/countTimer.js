@@ -25,7 +25,7 @@ const countTimer = deadline => {
       }
     };
 
-    if (timer.seconds >= 0) {
+    if (timer.timeRemaining > 0) {
       timerHours.textContent = addZero(timer.hours);
       timerMinutes.textContent = addZero(timer.minutes);
       timerSeconds.textContent = addZero(timer.seconds);
@@ -33,12 +33,11 @@ const countTimer = deadline => {
       timerHours.textContent = "00";
       timerMinutes.textContent = "00";
       timerSeconds.textContent = "00";
+      clearInterval(timerInterval);
     }
-
-    if (timer.timeRemaining <= 0) clearInterval(updateClock, 1000);
   };
 
-  setInterval(updateClock, 1000);
+  const timerInterval = setInterval(updateClock, 1000);
 };
 
 export default countTimer;

@@ -21,19 +21,21 @@ const sendForm = () => {
     });
     if (checkError) {
       form.appendChild(statusMessage);
+      fields.forEach(
+        item =>
+          (item.disabled = item.tagName.toLowerCase() === "button" ? true : 0)
+      );
       statusMessage.innerHTML = loadMessage;
       const formData = new FormData(form);
       const body = {};
       formData.forEach((value, key) => {
         body[key] = value;
       });
-
       postData(body)
         .then(response => {
           if (response.status !== 200) {
             throw new Error("error");
           }
-          console.log(response);
           statusMessage.textContent = successMessage;
         })
         .catch(error => {
@@ -42,7 +44,16 @@ const sendForm = () => {
         })
         .finally(() => {
           setTimeout(() => (statusMessage.textContent = ""), 5000);
-          [...form.elements].forEach(item => (item.value = ""));
+          fields.forEach(item => {
+            if (
+              item.tagName.toLowerCase() === "button" ||
+              item.type === "button"
+            ) {
+              item.disabled = false;
+            } else {
+              item.value = "";
+            }
+          });
         });
     }
   });
