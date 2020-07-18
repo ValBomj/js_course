@@ -9,9 +9,7 @@ const calculator = (price = 100) => {
   const countSum = () => {
     let total = 0,
       countValue = 1,
-      dayValue = 1,
-      timeout,
-      counter = 0;
+      dayValue = 1;
     const typeValue = calcType.options[calcType.selectedIndex].value,
       squareValue = +calcSquare.value;
 
@@ -28,19 +26,7 @@ const calculator = (price = 100) => {
     if (typeValue && squareValue) {
       total = price * typeValue * squareValue * countValue * dayValue;
     }
-
-    const animation = total => {
-      counter += total / 100 * 1.5;
-      totalValue.textContent = counter;
-      if (counter < total) {
-        timeout = requestAnimationFrame(() => {
-          animation(total);
-        });
-      } else {
-        cancelAnimationFrame(timeout);
-      }
-    };
-    animation(total);
+    totalValue.textContent = total;
   };
 
   calcBlock.addEventListener("input", e => {
@@ -53,7 +39,11 @@ const calculator = (price = 100) => {
 
   calcBlock.addEventListener("change", e => {
     const target = e.target;
-    if (calcSquare.value.trim() !== '' && (target.matches("input") || target.matches("select"))) {
+    if (
+      calcSquare.value.trim() !== "" &&
+      (target.matches("input") || target.matches("select")) &&
+      calcType.value !== ""
+    ) {
       countSum();
     }
   });

@@ -8,6 +8,9 @@ const formValid = () => {
         target.value = value.replace(/[^а-яё ]/gi, "");
       } else if (target.name === "user_phone") {
         target.value = value.replace(/[^+0-9]/gi, "");
+        target.value = target.value.length > 15 ? target.value.slice(0, 15) : target.value;
+      } else if (target.name === "user_email") {
+        target.value = value.replace(/[а-яё ]/gi, "");
       }
     }
   });
